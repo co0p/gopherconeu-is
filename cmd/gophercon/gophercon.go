@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	interrupt := make(chan os.Signal, 1)
+	shutdown := make(chan error, 2)
+
 	log.Printf("Service %s (Version:%s, BuildTime:%s) is starting ...", version.Release, version.Commit, version.BuildTime)
 
 	port := os.Getenv("PORT")
@@ -24,14 +27,29 @@ func main() {
 		log.Fatal("INTERNAL_PORT was not specified")
 	}
 
-	r := routing.BaseRouter()
-	ws := webserver.New("", port, r)
+	br := routing.BaseRouter()
+	ws := webserver.New("", port, br)
 
 	go func() {
-		log.Fatal(ws.Start())
+		err := ws.Start()
+		log.Fatal(err)
 	}()
 
 	dr := routing.DiagnosticsRouter()
 	dws := webserver.New("", internalPort, dr)
-	log.Fatal(dws.Start())
+
+	go func() {
+		err := dws.Start()
+		log.Fatal(err)
+	}()
+
+	select {
+	case killSignal := <-interrupt:
+		log.Printf("Got signal %s", killSignal)
+
+	case err := <-shutdown:
+		log.Printf("shutdown because %s...", err.Error())
+		dws.Stop()
+		ws.Stop()
+	}
 }

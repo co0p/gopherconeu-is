@@ -47,4 +47,4 @@ health checks (enter kubernetes)
 --------------------------------
 liveness -> no deadlocks? all good?
 readyness -> ready to accept connections
-https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/ 
