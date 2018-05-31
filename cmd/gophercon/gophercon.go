@@ -11,10 +11,10 @@ import (
 func main() {
 	log.Printf("Service is starting ...")
 
-	port := os.Getenv("SERVICE_PORT")
+	port := os.Getenv("PORT")
 	log.Printf("using port %s", port)
 	if len(port) < 1 {
-		log.Fatal("SERVICE_PORT was not specified")
+		log.Fatal("PORT was not specified")
 	}
 
 	r := routing.BaseRouter()
