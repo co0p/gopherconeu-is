@@ -1,3 +1,6 @@
+production ready go in kubernetes
+=================================
+
 production readyness
 --------------------
 
@@ -38,3 +41,10 @@ gopath:
 - .../bin/ executable binaries
 - .../src/ other packages
 - .../pkg/ compiles stuff
+
+
+health checks (enter kubernetes)
+--------------------------------
+liveness -> no deadlocks? all good?
+readyness -> ready to accept connections
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/

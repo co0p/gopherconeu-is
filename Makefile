@@ -2,6 +2,7 @@
 PROJECT?=github.com/co0p/gopherconeu-is
 APP?=gopherconeu
 PORT?=8080
+INTERNAL_PORT?=8001
 
 GOARCH?=linux
 GOOS?=amd64
@@ -24,7 +25,7 @@ build: clean
 	
 
 run: build
-	PORT=${PORT} ./bin/${APP}
+	PORT=${PORT} INTERNAL_PORT=${INTERNAL_PORT} ./bin/${APP}
 
 test:
 	go test -race ./...

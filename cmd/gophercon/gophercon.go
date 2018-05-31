@@ -18,9 +18,20 @@ func main() {
 		log.Fatal("PORT was not specified")
 	}
 
+	internalPort := os.Getenv("INTERNAL_PORT")
+	log.Printf("using internal port %s", internalPort)
+	if len(internalPort) < 1 {
+		log.Fatal("INTERNAL_PORT was not specified")
+	}
+
 	r := routing.BaseRouter()
 	ws := webserver.New("", port, r)
 
-	log.Fatal(ws.Start())
+	go func() {
+		log.Fatal(ws.Start())
+	}()
 
+	dr := routing.DiagnosticsRouter()
+	dws := webserver.New("", internalPort, dr)
+	log.Fatal(dws.Start())
 }
