@@ -8,10 +8,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var r = mux.NewRouter()
-
-// BaseRouter configures the /home handler and returns the instance
-func BaseRouter() *mux.Router {
+// BaseRouter configures the /home handler and returns the configured router
+func BaseRouter() http.Handler {
+	r := mux.NewRouter()
 	r.HandleFunc("/home", homeHandler()).Methods(http.MethodGet)
 	return r
 }
