@@ -8,7 +8,10 @@ import (
 
 func main() {
 
-	http.HandleFunc("/home", func(w http.ResponseWriter, _ *http.Request) {
+	log.Printf("Service is starting ...")
+
+	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("processing request ...%s", r.URL.Path)
 		fmt.Fprint(w, "hi there")
 	})
 
