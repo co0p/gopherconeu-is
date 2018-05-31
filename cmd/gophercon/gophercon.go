@@ -2,17 +2,24 @@ package main
 
 import (
 	"log"
-	"net/http"
+	"os"
 
 	"github.com/co0p/gopherconeu-is/pkg/routing"
+	"github.com/co0p/gopherconeu-is/pkg/webserver"
 )
 
 func main() {
 	log.Printf("Service is starting ...")
 
-	r := routing.BaseRouter()
-
-	if err := http.ListenAndServe(":8080", r); err != nil {
-		log.Fatalf("failed to start server %v", err.Error())
+	port := os.Getenv("SERVICE_PORT")
+	log.Printf("using port %s", port)
+	if len(port) < 1 {
+		log.Fatal("SERVICE_PORT was not specified")
 	}
+
+	r := routing.BaseRouter()
+	ws := webserver.New("", port, r)
+
+	log.Fatal(ws.Start())
+
 }
