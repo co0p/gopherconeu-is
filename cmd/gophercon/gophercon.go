@@ -1,27 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/co0p/gopherconeu-is/pkg/routing"
 )
 
 func main() {
 	log.Printf("Service is starting ...")
 
-	r := mux.NewRouter()
-	r.HandleFunc("/home", homeHandler()).Methods(http.MethodGet)
+	r := routing.BaseRouter()
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatalf("failed to start server %v", err.Error())
-	}
-}
-
-func homeHandler() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("processing request ...%s", r.URL.Path)
-		fmt.Fprint(w, "hi there")
 	}
 }
